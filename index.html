@@ -127,29 +127,6 @@ body, html {
   100% { background-position: 0% 50%; }
 }
 
-#welcomeContent {
-  position: relative;
-  text-align: center;
-  padding: 2.5vw 4vw;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
-  font-family: 'Philosopher', 'Poppins', sans-serif;
-  color: #ffffff;
-  z-index: 1;
-  font-size: 3vw;
-}
-
-#welcomeContent span {
-  display: inline-block;
-  font-family: 'Yellowtail', cursive;
-  font-size: 5vw;
-  color: #ffe267;
-  text-shadow: 0 0 10px #ffe267, 0 0 40px #fcd76a;
-}
-
 .carousel-container {
   position: fixed;
   top: 50%; left: 50%;
@@ -260,6 +237,7 @@ body, html {
   }
 }
 
+/* Fixed carousel sliding downward issue on phones */
 @media (max-width: 480px) {
   .birthdayText {
     font-size: 10vw;
@@ -279,12 +257,32 @@ body, html {
   }
 
   .carousel-container {
-    height: 70vw;
+    position: relative; /* changed from fixed */
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 0 auto;
+    width: 90vw;
+    height: auto;
+    max-height: 60vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #carousel {
+    height: 100%;
   }
 
   #carousel img {
     width: 60vw;
-    height: 70vw;
+    height: auto; /* maintain aspect ratio */
+    max-height: 60vh;
+    position: relative; /* override absolute positioning to improve layout */
+    left: auto;
+    top: auto;
+    transform: none;
   }
 }
 </style>
