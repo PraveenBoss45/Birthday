@@ -9,282 +9,155 @@
 <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@700&family=Poppins:wght@400;600&family=Yellowtail&display=swap" rel="stylesheet">
 
 <style>
-body, html {
-  margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
-  font-family: sans-serif;
-  background: #000;
-}
+  body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; font-family:sans-serif; background:#000; }
 
-#fireworkCanvas {
-  position: absolute;
-  left: 0; top: 0;
-  width: 100vw; height: 100vh;
-  display: block;
-  pointer-events: none;
-  z-index: 1;
-}
+  #fireworkCanvas { position:absolute; left:0; top:0; width:100vw; height:100vh; display:block; pointer-events:none; z-index:1; }
 
-/* Fade transition styles */
-.fade {
-  transition: opacity 1s ease, transform 1s ease;
-  opacity: 0;
-  transform: scale(0.95);
-  pointer-events: none;
-}
-.show {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
-}
-
-.birthdayText {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 5vw;
-  font-weight: 700;
-  color: #ff6e7f;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  text-align: center;
-  z-index: 2;
-}
-.birthdayText::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -150%;
-  width: 150%; height: 100%;
-  background: linear-gradient(120deg,
-    rgba(255, 0, 0, 0) 0%,
-    rgba(255, 0, 0, 0.6) 10%,
-    rgba(255, 127, 0, 0.6) 20%,
-    rgba(255, 255, 0, 0.6) 30%,
-    rgba(0, 255, 0, 0.6) 40%,
-    rgba(0, 0, 255, 0.6) 50%,
-    rgba(75, 0, 130, 0.6) 60%,
-    rgba(148, 0, 211, 0.6) 70%,
-    rgba(255, 0, 0, 0.6) 80%,
-    rgba(255, 0, 0, 0) 100%);
-  transform: skewX(-20deg);
-  animation: shimmerRainbow 3s infinite 8s;
-  pointer-events: none;
-  z-index: 3;
-}
-
-@keyframes shimmerRainbow { 0% { left: -150%; } 50% { left: 100%; } 100% { left: 100%; } }
-
-#typingMessage {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2.5vw;
-  font-weight: 700;
-  color: #ff6e7f;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-align: center;
-  white-space: pre-wrap;
-  max-width: 80vw;
-  line-height: 1.3;
-  border-right: 2px solid #fff;
-  padding-right: 5px;
-  z-index: 10;
-  animation: blink 0.7s steps(1) infinite;
-  background: #000;
-}
-
-@keyframes blink { 0%, 50%, 100% { border-color: #fff; } 25%, 75% { border-color: transparent; } }
-
-#galleryWelcome {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 50;
-  background: radial-gradient(circle at 20% 30%, #1a1a40, #0e0e23 70%);
-  overflow: hidden;
-  border-radius: 20px;
-  padding: 2.5vw 5vw;
-  color: #fff;
-}
-
-#galleryWelcome::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(130deg, rgba(255, 99, 233, 0.25), rgba(0, 247, 255, 0.25), rgba(255, 238, 88, 0.25));
-  background-size: 300% 300%;
-  animation: auroraShift 7s ease-in-out infinite;
-  z-index: 0;
-  mix-blend-mode: lighten;
-  border-radius: 20px;
-}
-
-@keyframes auroraShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.carousel-container {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  perspective: 1500px;
-  width: 80vw;
-  max-width: 700px;
-  height: 55vw;
-  max-height: 380px;
-  z-index: 40;
-  box-shadow: 0 0 30px 10px rgba(255, 110, 127, 0.25);
-  border-radius: 20px;
-  background: rgba(255, 110, 127, 0.1);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-}
-
-#carousel {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 1s ease-out;
-  z-index: 1;
-}
-
-#carousel img {
-  position: absolute;
-  width: 38vw;
-  max-width: 220px;
-  height: 48vw;
-  max-height: 280px;
-  left: 50%;
-  top: 50%;
-  object-fit: cover;
-  border-radius: 18px;
-  border: 4px solid;
-  border-image-slice: 1;
-  border-width: 4px;
-  border-image-source: linear-gradient(45deg, #ff6e7f, #fcd76a);
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s;
-  transform: translate(-50%, -50%) scale(0.85);
-  box-shadow: 0 4px 15px rgba(255, 110, 127, 0.25);
-  filter: drop-shadow(0 0 6px rgba(255, 110, 127, 0.15));
-  z-index: 2;
-}
-
-#carousel img.centered,
-#carousel img:hover {
-  transform: translate(-50%, -50%) scale(1.1) rotateY(15deg);
-  box-shadow: 0 0 40px 8px #ff6e7f, 0 5px 25px rgba(255, 110, 127, 0.6);
-  filter: drop-shadow(0 0 10px #ff6e7f);
-  border-image-source: linear-gradient(45deg, #ff4757, #fcd76a);
-  z-index: 10;
-  cursor: pointer;
-}
-
-#carousel img::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 22%;
-  bottom: -20%;
-  left: 0;
-  border-radius: 18px;
-  background: linear-gradient(to top, rgba(255,110,127,0.4), transparent);
-  filter: blur(9px);
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-  .birthdayText {
-    font-size: 8vw;
-    letter-spacing: 1.5px;
+  /* Fade transition styles */
+  .fade {
+    transition: opacity 1s ease, transform 1s ease;
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
   }
+  .show {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .birthdayText {
+    position: absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    font-size:5rem; font-weight:700; color:#ff6e7f; text-transform:uppercase; letter-spacing:3px; text-align:center; z-index:2;
+  }
+  .birthdayText::before {
+    content:''; position:absolute; top:0; left:-150%; width:150%; height:100%;
+    background: linear-gradient(120deg, rgba(255,0,0,0) 0%, rgba(255,0,0,0.6) 10%, rgba(255,127,0,0.6) 20%, rgba(255,255,0,0.6) 30%, rgba(0,255,0,0.6) 40%, rgba(0,0,255,0.6) 50%, rgba(75,0,130,0.6) 60%, rgba(148,0,211,0.6) 70%, rgba(255,0,0,0.6) 80%, rgba(255,0,0,0) 100%);
+    transform: skewX(-20deg); animation: shimmerRainbow 3s infinite 8s; pointer-events:none; z-index:3;
+  }
+  @keyframes shimmerRainbow { 0% { left:-150%; } 50% { left:100%; } 100% { left:100%; } }
 
   #typingMessage {
-    font-size: 4vw;
-    max-width: 90vw;
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    font-size:2rem; font-weight:700; color:#ff6e7f; text-transform:uppercase;
+    letter-spacing:2px; text-align:center; white-space:pre-wrap; max-width:80vw; line-height:1.3;
+    border-right:2px solid #fff; padding-right:5px; z-index:10; animation: blink 0.7s steps(1) infinite; background:#000;
   }
+  @keyframes blink { 0%,50%,100% { border-color:#fff; } 25%,75% { border-color:transparent; } }
 
-  #welcomeContent {
-    font-size: 5vw;
-    padding: 5vw 6vw;
-  }
-
-  #welcomeContent span {
-    font-size: 8vw;
-  }
-
-  .carousel-container {
-    width: 90vw;
-    height: 60vw;
-    max-width: none;
-    max-height: none;
-  }
-
-  #carousel img {
-    width: 50vw;
-    height: 60vw;
-    max-width: none;
-    max-height: none;
-  }
-}
-
-/* Fixed carousel sliding downward issue on phones */
-@media (max-width: 480px) {
-  .birthdayText {
-    font-size: 10vw;
-  }
-
-  #typingMessage {
-    font-size: 5vw;
-  }
-
-  #welcomeContent {
-    font-size: 6vw;
-    padding: 7vw 8vw;
-  }
-
-  #welcomeContent span {
-    font-size: 10vw;
-  }
-
-  .carousel-container {
-    position: relative; /* changed from fixed */
-    top: auto;
-    left: auto;
-    transform: none;
-    margin: 0 auto;
-    width: 90vw;
-    height: auto;
-    max-height: 60vh;
-    overflow: hidden;
+  /* --- Updated Premium Welcome Overlay Design --- */
+  #galleryWelcome {
+    position: fixed;
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 50;
+    background: radial-gradient(circle at 20% 30%, #1a1a40, #0e0e23 70%);
+    overflow: hidden;
+    border-radius: 20px;
+    padding: 40px;
+    color: #fff;
+  }
+
+  #galleryWelcome::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(130deg, rgba(255, 99, 233, 0.25), rgba(0, 247, 255, 0.25), rgba(255, 238, 88, 0.25));
+    background-size: 300% 300%;
+    animation: auroraShift 7s ease-in-out infinite;
+    z-index: 0;
+    mix-blend-mode: lighten;
+    border-radius: 20px;
+  }
+  @keyframes auroraShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  #welcomeContent {
+    position: relative;
+    text-align: center;
+    padding: 40px 60px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    font-family: 'Philosopher', 'Poppins', sans-serif;
+    color: #ffffff;
+    z-index: 1;
+    font-size: 3rem;
+  }
+
+  #welcomeContent span {
+    display: inline-block;
+    font-family: 'Yellowtail', cursive;
+    font-size: 5rem;
+    color: #ffe267;
+    text-shadow: 0 0 10px #ffe267, 0 0 40px #fcd76a;
+  }
+
+  /* Enhanced Premium Carousel */
+  .carousel-container {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    display: flex; justify-content: center; align-items: center; perspective: 1500px;
+    width: 80vw; max-width: 700px; height: 55vw; max-height: 380px;
+    z-index: 40;
+    box-shadow: 0 0 30px 10px rgba(255, 110, 127, 0.25);
+    border-radius: 20px;
+    background: rgba(255, 110, 127, 0.1);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
   }
 
   #carousel {
-    height: 100%;
+    width: 100%; height: 100%; position: relative;
+    transform-style: preserve-3d; transition: transform 1s ease-out;
+    z-index: 1;
   }
 
   #carousel img {
-    width: 60vw;
-    height: auto; /* maintain aspect ratio */
-    max-height: 60vh;
-    position: relative; /* override absolute positioning to improve layout */
-    left: auto;
-    top: auto;
-    transform: none;
+    position: absolute;
+    width: 38vw; max-width: 220px; height: 48vw; max-height: 280px;
+    left: 50%; top: 50%; object-fit: cover;
+    border-radius: 18px;
+    border: 4px solid;
+    border-image-slice: 1;
+    border-width: 4px;
+    border-image-source: linear-gradient(45deg, #ff6e7f, #fcd76a);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s;
+    transform: translate(-50%, -50%) scale(0.85);
+    box-shadow: 0 4px 15px rgba(255, 110, 127, 0.25);
+    filter: drop-shadow(0 0 6px rgba(255, 110, 127, 0.15));
+    z-index: 2;
   }
-}
+
+  #carousel img.centered,
+  #carousel img:hover {
+    transform: translate(-50%, -50%) scale(1.1) rotateY(15deg);
+    box-shadow: 0 0 40px 8px #ff6e7f, 0 5px 25px rgba(255, 110, 127, 0.6);
+    filter: drop-shadow(0 0 10px #ff6e7f);
+    border-image-source: linear-gradient(45deg, #ff4757, #fcd76a);
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  #carousel img::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 22%;
+    bottom: -20%;
+    left: 0;
+    border-radius: 18px;
+    background: linear-gradient(to top, rgba(255,110,127,0.4), transparent);
+    filter: blur(9px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
 </style>
 </head>
 
@@ -310,7 +183,6 @@ body, html {
   <br>
   <span style="font-size: 1.2rem;">– From Praveen.. 💖</span>
 </div>
-
 <audio id="typingSound" src="https://www.soundjay.com/mechanical/sounds/keyboard-1.mp3" preload="auto"></audio>
 
 <script>
@@ -322,125 +194,11 @@ window.addEventListener('resize', resize); resize();
 
 function randomColor(){ const h=Math.floor(Math.random()*360); const s=95+Math.random()*5; const l=55+Math.random()*20; return `hsl(${h},${s}%,${l}%)`; }
 
-class Rocket{ 
-  constructor(){ 
-    this.x=W*(0.15+Math.random()*0.7); 
-    this.y=H-12; 
-    this.vy=-(6+Math.random()*3); 
-    this.vx=(Math.random()-0.5)*1.2; 
-    this.hasBurst=false; 
-    this.burstY=H*0.25+Math.random()*H*0.4; 
-    this.trail=[]; 
-    this.particles=[]; 
-    this.mainColor=randomColor(); 
-  } 
-  update(){ 
-    if(!this.hasBurst){ 
-      this.trail.push({x:this.x,y:this.y,alpha:1,color:this.mainColor}); 
-      if(this.trail.length>16)this.trail.shift(); 
-      this.x+=this.vx; 
-      this.y+=this.vy; 
-      this.vy+=0.08; 
-      this.trail.forEach(t=>t.alpha*=0.82); 
-      if(this.y<=this.burstY || this.vy>2.0)this.burst(); 
-    } else { 
-      this.particles.forEach(p=>p.update()); 
-    } 
-  } 
-  draw(ctx){ 
-    if(!this.hasBurst){ 
-      this.trail.forEach((t,i)=>{ 
-        if(t.alpha>0.01){ 
-          ctx.save(); 
-          ctx.globalAlpha=t.alpha; 
-          ctx.beginPath(); 
-          ctx.arc(t.x,t.y,2.1-i*0.13,0,2*Math.PI); 
-          ctx.fillStyle=t.color; 
-          ctx.shadowColor=t.color; 
-          ctx.shadowBlur=8; 
-          ctx.fill(); 
-          ctx.restore(); 
-        } 
-      }); 
-      ctx.save(); 
-      ctx.beginPath(); 
-      ctx.arc(this.x,this.y,5,0,2*Math.PI); 
-      ctx.fillStyle="#fff"; 
-      ctx.shadowColor=this.mainColor; 
-      ctx.shadowBlur=40; 
-      ctx.globalAlpha=0.98; 
-      ctx.fill(); 
-      ctx.restore(); 
-    } else { 
-      this.particles.forEach(p=>p.draw(ctx)); 
-    } 
-  } 
-  burst(){ 
-    this.hasBurst=true; 
-    const count=70+Math.floor(Math.random()*30); 
-    for(let i=0;i<count;i++){ 
-      const angle=(i/count)*Math.PI*2; 
-      const speed=2.8+Math.random()*2.5; 
-      const color=randomColor(); 
-      this.particles.push(new Particle(this.x,this.y,Math.cos(angle)*speed*(0.9+Math.random()*0.15),Math.sin(angle)*speed*(0.9+Math.random()*0.1),color,this.mainColor)); 
-    } 
-  } 
-  done(){ 
-    return this.hasBurst && this.particles.every(p=>p.alpha<=0.01); 
-  } 
-}
-class Particle{ 
-  constructor(x,y,vx,vy,color,coreColor){ 
-    this.x=x; this.y=y; this.vx=vx; this.vy=vy; 
-    this.baseColor=color; this.coreColor=coreColor; 
-    this.radius=3+Math.random()*2.8; this.alpha=1; 
-    this.gravity=0.02+Math.random()*0.01; 
-    this.friction=0.982+Math.random()*0.01; 
-    this.colorPhase=Math.floor(Math.random()*360);
-  } 
-  update(){ 
-    this.x+=this.vx; this.y+=this.vy; 
-    this.vy+=this.gravity; 
-    this.vx*=this.friction; 
-    this.vy*=this.friction; 
-    this.alpha-=0.010+Math.random()*0.009; 
-    this.colorPhase=(this.colorPhase+2)%360;
-  } 
-  draw(ctx){ 
-    if(this.alpha>0){ 
-      ctx.save(); 
-      ctx.globalAlpha=Math.max(0,this.alpha); 
-      let grad=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.radius*3); 
-      grad.addColorStop(0,"#fff"); 
-      grad.addColorStop(0.15,this.baseColor); 
-      grad.addColorStop(0.6,`hsl(${this.colorPhase},98%,59%)`); 
-      grad.addColorStop(1,this.coreColor); 
-      ctx.beginPath(); 
-      ctx.arc(this.x,this.y,this.radius,0,2*Math.PI); 
-      ctx.fillStyle=grad; 
-      ctx.shadowColor="#fff"; 
-      ctx.shadowBlur=25; 
-      ctx.fill(); 
-      ctx.restore(); 
-    } 
-  } 
-}
+class Rocket{ constructor(){ this.x=W*(0.15+Math.random()*0.7); this.y=H-12; this.vy=-(6+Math.random()*3); this.vx=(Math.random()-0.5)*1.2; this.hasBurst=false; this.burstY=H*0.25+Math.random()*H*0.4; this.trail=[]; this.particles=[]; this.mainColor=randomColor(); } update(){ if(!this.hasBurst){ this.trail.push({x:this.x,y:this.y,alpha:1,color:this.mainColor}); if(this.trail.length>16)this.trail.shift(); this.x+=this.vx; this.y+=this.vy; this.vy+=0.08; this.trail.forEach(t=>t.alpha*=0.82); if(this.y<=this.burstY || this.vy>2.0)this.burst(); } else { this.particles.forEach(p=>p.update()); } } draw(ctx){ if(!this.hasBurst){ this.trail.forEach((t,i)=>{ if(t.alpha>0.01){ ctx.save(); ctx.globalAlpha=t.alpha; ctx.beginPath(); ctx.arc(t.x,t.y,2.1-i*0.13,0,2*Math.PI); ctx.fillStyle=t.color; ctx.shadowColor=t.color; ctx.shadowBlur=8; ctx.fill(); ctx.restore(); } }); ctx.save(); ctx.beginPath(); ctx.arc(this.x,this.y,5,0,2*Math.PI); ctx.fillStyle="#fff"; ctx.shadowColor=this.mainColor; ctx.shadowBlur=40; ctx.globalAlpha=0.98; ctx.fill(); ctx.restore(); } else { this.particles.forEach(p=>p.draw(ctx)); } } burst(){ this.hasBurst=true; const count=70+Math.floor(Math.random()*30); for(let i=0;i<count;i++){ const angle=(i/count)*Math.PI*2; const speed=2.8+Math.random()*2.5; const color=randomColor(); this.particles.push(new Particle(this.x,this.y,Math.cos(angle)*speed*(0.9+Math.random()*0.15),Math.sin(angle)*speed*(0.9+Math.random()*0.1),color,this.mainColor)); } } done(){ return this.hasBurst && this.particles.every(p=>p.alpha<=0.01); } }
+class Particle{ constructor(x,y,vx,vy,color,coreColor){ this.x=x; this.y=y; this.vx=vx; this.vy=vy; this.baseColor=color; this.coreColor=coreColor; this.radius=3+Math.random()*2.8; this.alpha=1; this.gravity=0.02+Math.random()*0.01; this.friction=0.982+Math.random()*0.01; this.colorPhase=Math.floor(Math.random()*360);} update(){ this.x+=this.vx; this.y+=this.vy; this.vy+=this.gravity; this.vx*=this.friction; this.vy*=this.friction; this.alpha-=0.010+Math.random()*0.009; this.colorPhase=(this.colorPhase+2)%360;} draw(ctx){ if(this.alpha>0){ ctx.save(); ctx.globalAlpha=Math.max(0,this.alpha); let grad=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.radius*3); grad.addColorStop(0,"#fff"); grad.addColorStop(0.15,this.baseColor); grad.addColorStop(0.6,`hsl(${this.colorPhase},98%,59%)`); grad.addColorStop(1,this.coreColor); ctx.beginPath(); ctx.arc(this.x,this.y,this.radius,0,2*Math.PI); ctx.fillStyle=grad; ctx.shadowColor="#fff"; ctx.shadowBlur=25; ctx.fill(); ctx.restore(); } } }
 
 let rockets=[]; let frame=0; let fireworkDimmed = false;
-function animate(){ 
-  ctx.globalAlpha=fireworkDimmed?1:0.18; 
-  ctx.fillStyle="#000"; 
-  ctx.fillRect(0,0,W,H); 
-  ctx.globalAlpha=1; 
-  rockets.forEach(fw=>{ fw.update(); fw.draw(ctx); }); 
-  rockets=rockets.filter(fw=>!fw.done()); 
-  frame++; 
-  if(!fireworkDimmed && frame%(25+Math.floor(Math.random()*10))===0){ 
-    rockets.push(new Rocket()); 
-    if(Math.random()>0.7) rockets.push(new Rocket()); 
-  } 
-  requestAnimationFrame(animate); 
-}
+function animate(){ ctx.globalAlpha=fireworkDimmed?1:0.18; ctx.fillStyle="#000"; ctx.fillRect(0,0,W,H); ctx.globalAlpha=1; rockets.forEach(fw=>{ fw.update(); fw.draw(ctx); }); rockets=rockets.filter(fw=>!fw.done()); frame++; if(!fireworkDimmed && frame%(25+Math.floor(Math.random()*10))===0){ rockets.push(new Rocket()); if(Math.random()>0.7) rockets.push(new Rocket()); } requestAnimationFrame(animate); }
 animate();
 
 const galleryWelcome = document.getElementById('galleryWelcome');
@@ -496,7 +254,7 @@ function fadeOut(element) {
   return new Promise(resolve => {
     element.classList.remove('show');
     element.classList.add('fade');
-    setTimeout(resolve, 1000);
+    setTimeout(resolve, 1000); // match the CSS 1s transition
   });
 }
 
